@@ -1,88 +1,97 @@
 #include <GL/glut.h>
 
 void display() {
+    // Membersihkan layar dengan warna background
     glClear(GL_COLOR_BUFFER_BIT);
+    
+    // Menebalkan garis agar GL_LINE lebih terlihat
+    glLineWidth(3.0f); 
 
-    // GL_LINE_STRIP
-    glColor3f(0.8, 0.3, 0.3); 
+    // 1. GL_LINE_STRIP (Garis bersambung, titik akhir tidak terhubung ke awal)
+    // Digambar di kiri atas (Warna Merah)
+    glColor3f(1.0f, 0.0f, 0.0f); 
     glBegin(GL_LINE_STRIP);
-        glVertex2f(-0.9, 0.75);
-        glVertex2f(-0.7, 0.55);
-        glVertex2f(-0.5, 0.75);
-        glVertex2f(-0.3, 0.55);
+        glVertex2f(-0.8f, 0.3f); // Titik 1
+        glVertex2f(-0.6f, 0.7f); // Titik 2 (Puncak)
+        glVertex2f(-0.4f, 0.3f); // Titik 3
     glEnd();
 
-    // GL_LINE_LOOP
-    glColor3f(0.3, 0.7, 0.3);
+    // 2. GL_LINE_LOOP (Garis bersambung tertutup, titik akhir otomatis terhubung ke awal)
+    // Digambar di tengah atas (Warna Hijau)
+    glColor3f(0.0f, 0.6f, 0.0f); 
     glBegin(GL_LINE_LOOP);
-        glVertex2f(0.0, 0.75);
-        glVertex2f(0.2, 0.55);
-        glVertex2f(0.4, 0.75);
-        glVertex2f(0.2, 0.95);
+        glVertex2f(-0.2f, 0.3f);
+        glVertex2f( 0.2f, 0.3f);
+        glVertex2f( 0.0f, 0.7f);
     glEnd();
 
-    // GL_TRIANGLE_FAN
+    // 3. GL_TRIANGLE_FAN (Kumpulan segitiga yang berpusat pada titik pertama)
+    // Digambar di kanan atas (Warna Biru)
+    glColor3f(0.0f, 0.0f, 1.0f); 
     glBegin(GL_TRIANGLE_FAN);
-    glVertex2f(-0.7, 0.15);
-    glVertex2f(-0.9, 0.0);
-    glVertex2f(-0.8, -0.2);
-    glVertex2f(-0.6, -0.2);
-    glVertex2f(-0.5, 0.0);
-	glEnd();
+        glVertex2f( 0.6f, 0.5f); // Titik Pusat (Center)
+        glVertex2f( 0.4f, 0.3f); // Titik 2
+        glVertex2f( 0.8f, 0.3f); // Titik 3
+        glVertex2f( 0.8f, 0.7f); // Titik 4
+        glVertex2f( 0.4f, 0.7f); // Titik 5
+        glVertex2f( 0.4f, 0.3f); // Kembali ke titik 2 untuk menutup bentuk
+    glEnd();
 
-    // GL_TRIANGLE_STRIP
-    glColor3f(0.8, 0.8, 0.3);
+    // 4. GL_TRIANGLE_STRIP (Pita segitiga yang saling berbagi sisi)
+    // Digambar di kiri bawah (Warna Oranye)
+    glColor3f(0.8f, 0.5f, 0.0f); 
     glBegin(GL_TRIANGLE_STRIP);
-        glVertex2f(-0.2, 0.1);
-        glVertex2f(-0.2, -0.35);
-        glVertex2f(0.1, 0.1);
-        glVertex2f(0.1, -0.35);
-        glVertex2f(0.4, 0.1);
-        glVertex2f(0.4, -0.35);
+        glVertex2f(-0.8f, -0.7f); // Bawah 1
+        glVertex2f(-0.8f, -0.3f); // Atas 1
+        glVertex2f(-0.6f, -0.7f); // Bawah 2
+        glVertex2f(-0.6f, -0.3f); // Atas 2
+        glVertex2f(-0.4f, -0.7f); // Bawah 3
+        glVertex2f(-0.4f, -0.3f); // Atas 3
     glEnd();
 
-    // GL_QUADS
-    glColor3f(0.8, 0.4, 0.7);
+    // 5. GL_QUADS (Segiempat solid independen dari 4 titik)
+    // Digambar di tengah bawah (Warna Ungu)
+    glColor3f(0.5f, 0.0f, 0.5f); 
     glBegin(GL_QUADS);
-        glVertex2f(0.5, 0.1);
-        glVertex2f(0.7, 0.1);
-        glVertex2f(0.7, -0.35);
-        glVertex2f(0.5, -0.35);
+        glVertex2f(-0.2f, -0.7f); // Kiri Bawah
+        glVertex2f( 0.2f, -0.7f); // Kanan Bawah
+        glVertex2f( 0.2f, -0.3f); // Kanan Atas
+        glVertex2f(-0.2f, -0.3f); // Kiri Atas
     glEnd();
 
-    // GL_QUAD_STRIP
-    glColor3f(0.4, 0.8, 0.8);
+    // 6. GL_QUAD_STRIP (Pita segiempat yang saling berbagi sisi)
+    // Digambar di kanan bawah (Warna Cyan Gelap)
+    glColor3f(0.0f, 0.6f, 0.8f); 
     glBegin(GL_QUAD_STRIP);
-        glVertex2f(0.75, 0.1);
-        glVertex2f(0.75, -0.35);
-
-        glVertex2f(0.9, 0.1);
-        glVertex2f(0.9, -0.35);
-
-        glVertex2f(1.05, 0.1);
-        glVertex2f(1.05, -0.35);
+        glVertex2f( 0.4f, -0.7f); // Bawah 1
+        glVertex2f( 0.4f, -0.3f); // Atas 1
+        glVertex2f( 0.6f, -0.6f); // Bawah 2 (Naik sedikit)
+        glVertex2f( 0.6f, -0.2f); // Atas 2 (Naik sedikit)
+        glVertex2f( 0.8f, -0.7f); // Bawah 3
+        glVertex2f( 0.8f, -0.3f); // Atas 3
     glEnd();
 
     glFlush();
 }
 
 void init() {
-    glClearColor(0.95, 0.95, 0.95, 1.0); // background abu muda
-
+    // Background Putih
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f); 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-
-    gluOrtho2D(-1.2, 1.2, -1.2, 1.2); // memperluas area tampilan
+    // Koordinat ortogonal (X: -1 sampai 1, Y: -1 sampai 1)
+    gluOrtho2D(-1.0, 1.0, -1.0, 1.0); 
 }
 
 int main(int argc, char** argv) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(900,600);
-    glutCreateWindow("Primitive OpenGL");
-
+    glutInitWindowSize(800, 600); // Ukuran window diperbesar agar bentuk tidak berdempetan
+    glutCreateWindow("Tugas 2");
+    
     init();
     glutDisplayFunc(display);
-
     glutMainLoop();
+    
+    return 0;
 }
