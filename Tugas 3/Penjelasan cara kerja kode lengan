@@ -1,0 +1,25 @@
+Konsep utama di sini adalah membuat objek-objek yang saling terhubung (hierarchical modeling). Saat "bahu" bergerak, "siku" dan lengan bawah akan otomatis ikut bergerak, persis seperti lengan asli karena transformasi bersifat berurutan (kumulatif).
+1. Variabel Global 
+   static int shoulder = 0, elbow = 0;
+   Dua variabel ini berfungsi untuk menyimpan sudut rotasi (dalam derajat). shoulder untuk sendi bahu, dan elbow untuk sendi siku.
+2. Fungsi display(): Menggambar Lengan
+   OpenGL menggambar menggunakan sistem matriks tumpuk (Matrix Stack).
+   - glClear (GL_COLOR_BUFFER_BIT);: Membersihkan layar sebelum menggambar ulang (seperti menghapus papan tulis).
+   - glPushMatrix();: digunakan untuk menyimpan seluruh state transformasi (translasi, rotasi, skala), sehingga perubahan pada satu bagian tidak mempengaruhi bagian lain.
+   - Menggambar Bahu dan Lengan Atas:
+        a. Kombinasi glTranslatef (-1.0, ...) -> glRotatef(...) -> glTranslatef (1.0, ...) digunakan untuk memindahkan titik rotasi (pivot). Secara default, objek berotasi terhadap titik asal (origin). Dengan cara ini, titik rotasi dipindahkan ke ujung objek sehingga berfungsi seperti engsel bahu.
+        b. Di dalam glPushMatrix() kedua, digunakan glScalef(2.0, 0.4, 1.0) untuk mengubah bentuk glutWireCube(1.0) menjadi persegi panjang yang menyerupai lengan atas.
+   - Menggambar Siku dan Lengan Bawah:
+        a. glTranslatef (1.0, 0.0, 0.0); menggeser titik awal ke ujung lengan atas. Karena ini dipanggil setelah rotasi bahu, titik ini akan selalu berada di ujung lengan atas, ke mana pun bahu berputar, karena transformasi bersifat kumulatif.
+        b. Lengan bawah kemudian dirotasi menggunakan elbow, dengan teknik pivot yang sama, lalu digambar menggunakan kubus yang diskalakan.
+   - glPopMatrix();: Mengembalikan state transformasi ke kondisi sebelumnya yang telah disimpan.
+3. Fungsi keyboard(): Memberi Nyawa (Animasi)
+   Fungsi ini membaca tombol yang ditekan di keyboard untuk memutar sendi:
+   - s / S: Menambah/mengurangi sudut shoulder (bahu) sebanyak 5 derajat.
+   - e / E: Menambah/mengurangi sudut elbow (siku) sebanyak 5 derajat.
+   - ESC (kode 27): Menutup program.
+   - glutPostRedisplay(): Menandai bahwa tampilan perlu digambar ulang dengan memanggil fungsi display(), sehingga perubahan sudut terlihat sebagai animasi.
+4. Fungsi reshape(): Mengatur Kamera
+   Fungsi ini dipanggil saat jendela pertama kali dibuka atau saat kamu mengubah ukuran jendelanya (maximize/minimize).
+   - gluPerspective(65.0, ...): Mengatur lensa kamera agar memiliki sudut pandang 65 derajat (efek 3D/perspektif).
+   - glTranslatef (0.0, 0.0, -5.0): Memundurkan kamera sejauh 5 unit ke belakang (sumbu Z negatif) agar lengan robot tidak menabrak "mata" kamera dan bisa terlihat utuh di layar.
