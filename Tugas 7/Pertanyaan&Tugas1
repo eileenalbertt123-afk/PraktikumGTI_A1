@@ -1,0 +1,50 @@
+Pertanyaan:
+1.Tekstur apa saja yang dibuat pada kubus tersebut?
+Pada program yang dibuat, tekstur berasal dari file gambar BMP yang dimuat menggunakan fungsi:
+Image* image = loadBMP("bg.bmp");
+Tekstur tersebut kemudian disimpan ke dalam OpenGL melalui fungsi:
+_textureId = loadTexture(image);
+Sehingga tekstur yang digunakan pada kubus adalah gambar tsuki.bmp yang ditempelkan pada permukaan kubus menggunakan teknik texture mapping. 
+Pada implementasi saat ini, tekstur diterapkan pada seluruh sisi kubus menggunakan koordinat tekstur (glTexCoord2f()).
+
+Tugas:
+1.  Analisa dan Jelaskan alur / cara kerja teksture yang telah dikerjakan.
+    a. Membaca File Gambar
+       Program membaca file gambar BMP menggunakan fungsi: Image* image = loadBMP("bg.bmp");
+       Fungsi loadBMP() berada pada file imageloader.cpp yang bertugas: Membuka file BMP, Membaca ukuran gambar, Membaca data piksel, Menyimpan data gambar ke objek Image.
+    b. Membuat Objek Texture OpenGL
+       Data gambar yang telah dibaca kemudian dikirim ke OpenGL menggunakan fungsi: GLuint loadTexture(Image* image)
+       Di dalam fungsi tersebut terdapat: glGenTextures(1, &textureId); yang berfungsi membuat ID texture baru.
+       Kemudian: glBindTexture(GL_TEXTURE_2D, textureId); digunakan untuk mengaktifkan texture yang akan dipakai.
+    c. Mengirim Data Gambar ke GPU
+       Selanjutnya data piksel gambar dikirim ke OpenGL menggunakan: glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image->width, image->height, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+       Fungsi ini menyimpan data gambar ke memori grafis sehingga dapat digunakan sebagai tekstur.
+    d. Mengaktifkan Texture Saat Menggambar Kubus
+       Pada fungsi drawScene(): glEnable(GL_TEXTURE_2D);
+                                glBindTexture(GL_TEXTURE_2D, _textureId);
+        Texture diaktifkan dan dihubungkan ke kubus yang akan digambar.
+    e. Menentukan Posisi Texture
+       Koordinat texture diberikan menggunakan: glTexCoord2f()
+       Contoh:
+       glTexCoord2f(0.0f, 0.0f);
+       glVertex3f(...);
+
+       glTexCoord2f(1.0f, 0.0f);
+       glVertex3f(...);
+
+       glTexCoord2f(1.0f, 1.0f);
+       glVertex3f(...);
+
+       glTexCoord2f(0.0f, 1.0f);
+       glVertex3f(...);
+       Koordinat texture menentukan bagian gambar yang ditempelkan pada setiap titik sudut kubus.
+   f. Menampilkan Kubus Bertekstur
+      Setelah seluruh sisi kubus digambar menggunakan:
+      glBegin(GL_QUADS);
+      ...
+      glEnd();
+      OpenGL menampilkan kubus yang telah dilapisi tekstur gambar.
+
+Kesimpulan
+
+Texture mapping merupakan teknik menempelkan gambar dua dimensi pada permukaan objek tiga dimensi. Pada praktikum ini, gambar BMP dibaca menggunakan imageloader, kemudian dikirim ke OpenGL sebagai texture dan dipetakan ke permukaan kubus menggunakan koordinat tekstur (glTexCoord2f()).
