@@ -1,0 +1,9 @@
+Fungsi glShadowProjection:
+Fungsi ini bertujuan untuk menghitung matriks transformasi proyeksi yang secara matematis memetakan setiap titik pada objek 3D ke titik tujuan pada sebuah bidang datar (lantai), seolah-olah ditarik garis lurus dari sumber cahaya melewati objek tersebut.  
+
+Alur glShadowProjection:
+1. Perhitungan Skalar (d dan c):
+    - Menghitung dot product antara normal bidang (n) dan posisi cahaya (l) untuk mendapatkan nilai d.  
+    - Menghitung nilai c yang merupakan jarak relatif antara posisi bidang (e) dan cahaya.  
+2. Penyusunan Matriks: Nilai-nilai tersebut dimasukkan ke dalam array mat[16] yang disusun sedemikian rupa sesuai dengan rumus proyeksi planar .  
+3. Aplikasi Matriks: Fungsi glMultMatrixf(mat) dipergunakan untuk mengalikan matriks transformasi yang sedang aktif dengan matriks bayangan ini. Akibatnya, semua instruksi gambar setelah fungsi ini dipanggil akan diposisikan dan "dipenyetkan" ke bidang lantai mengikuti arah datangnya cahaya. 
