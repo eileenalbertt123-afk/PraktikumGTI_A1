@@ -1,0 +1,8 @@
+Proses pembuatan bayangan dalam kode ini menggunakan teknik Planar Shadow Projection. Untuk alurnya sendiri adalah:
+a. Definisi Lingkungan: Menentukan posisi sumber cahaya (l), posisi bidang lantai (e), dan arah normal bidang lantai (n).  
+b. Gambar Lantai: Menggambar bidang datar (biasanya menggunakan GL_QUADS) yang akan menerima bayangan.  
+c. Gambar Objek Asli: Menggambar objek utama di posisinya dengan pencahayaan aktif (GL_LIGHTING) agar objek terlihat 3D. 
+d. Proyeksi Bayangan:
+    - Memanggil fungsi glShadowProjection untuk menghitung matriks transformasi yang akan "memipihkan" objek ke bidang lantai berdasarkan posisi cahaya.  
+    - Mematikan pencahayaan (glDisable(GL_LIGHTING)) dan mengatur warna menjadi abu-abu gelap atau hitam agar terlihat seperti bayangan.  
+    - Menggambar ulang objek yang sama (draw()). Karena matriks proyeksi aktif, objek ini akan muncul sebagai bayangan pipih di atas lantai.
